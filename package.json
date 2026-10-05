@@ -57,7 +57,7 @@
 	},
 	"dependencies": {
 		"@libsql/client": "^0.17.4",
-		"@lucide/svelte": "^0.564.0",
+		"@lucide/svelte": "^1.49.0",
 		"convex": "^1.46.0",
 		"convex-helpers": "^0.1.124",
 		"convex-svelte": "^0.0.12",
