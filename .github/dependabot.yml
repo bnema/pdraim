@@ -40,14 +40,6 @@ updates:
         update-types:
           - 'minor'
           - 'patch'
-      # Group Drizzle ORM related packages
-      drizzle:
-        patterns:
-          - 'drizzle-*'
-          - '@libsql/*'
-        update-types:
-          - 'minor'
-          - 'patch'
     # Set PR limits to avoid overwhelming the team
     open-pull-requests-limit: 8
     # Ignore packages that require manual updates or are pinned for specific reasons

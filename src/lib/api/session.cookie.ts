@@ -5,30 +5,12 @@ import { createLogger } from '$lib/utils/logger.server';
 
 const log = createLogger('session-cookie');
 
-// Helper function to determine cookie domain
+// Host-only cookie by default; set COOKIE_DOMAIN for cross-subdomain cookies
 function getCookieDomain(): string | undefined {
-	// Allow explicit override via environment variable
 	const envDomain = env.COOKIE_DOMAIN;
 	if (envDomain) {
 		log.debug('Using COOKIE_DOMAIN from environment:', { domain: envDomain });
 		return envDomain;
-	}
-
-	if (!dev) {
-		// Check for Cloudflare Pages domain
-		if (env.CF_PAGES_URL) {
-			const url = env.CF_PAGES_URL;
-			log.debug('Cloudflare Pages URL:', { url });
-			// For preview deployments, use host-only cookie
-			if (env.CF_PAGES_BRANCH !== 'main') {
-				return undefined;
-			}
-			// For production on Cloudflare Pages, use host-only cookie (safest default)
-			// Set COOKIE_DOMAIN explicitly if cross-subdomain cookies are needed
-			return undefined;
-		}
-		// Production without explicit domain - use host-only cookie (safest default)
-		return undefined;
 	}
 	return undefined;
 }

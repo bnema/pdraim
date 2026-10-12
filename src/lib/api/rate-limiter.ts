@@ -36,7 +36,7 @@ const MAX_RATE_LIMIT_DURATION = Math.max(
 	RATE_LIMITS.protected.durationMs
 );
 
-// Lazy cleanup: remove stale entries on each check (Cloudflare Workers don't allow setInterval at global scope)
+// Lazy cleanup: remove stale entries on each check
 let lastCleanup = 0;
 
 function cleanupStaleEntries() {
@@ -69,7 +69,6 @@ function isRateLimited(
 	ip: string,
 	endpointType: keyof typeof RATE_LIMITS
 ): { limited: boolean; retryAfter?: number } {
-	// Lazy cleanup on each check (replaces setInterval for Cloudflare compatibility)
 	cleanupStaleEntries();
 
 	// Skip rate limiting completely in development for localhost
@@ -99,7 +98,6 @@ function isRateLimited(
 }
 
 export async function handleRateLimit(event: RequestEvent): Promise<Response | null> {
-	const ip = event.getClientAddress();
 	const url = new URL(event.request.url);
 	const isPublic = url.searchParams.get('public') === 'true';
 
@@ -107,6 +105,8 @@ export async function handleRateLimit(event: RequestEvent): Promise<Response | n
 	if (!url.pathname.startsWith('/api')) {
 		return null;
 	}
+
+	const ip = event.getClientAddress();
 
 	const endpointType = getEndpointType(url.pathname, isPublic);
 	const { limited, retryAfter } = isRateLimited(ip, endpointType);
