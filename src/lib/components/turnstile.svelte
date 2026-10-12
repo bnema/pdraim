@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
-	import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
+	import { env } from '$env/dynamic/public';
 	import type { TurnstileOptions } from '$lib/types/turnstile';
 
 	let isVerified = $state(false);
@@ -13,7 +13,7 @@
 	let widgetId = '';
 
 	// Ensure site key is a string and trim any whitespace
-	const siteKey = String(PUBLIC_TURNSTILE_SITE_KEY).trim();
+	const siteKey = String(env.PUBLIC_TURNSTILE_SITE_KEY ?? '').trim();
 
 	onMount(() => {
 		if (!window.turnstile) {

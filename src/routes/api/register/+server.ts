@@ -10,7 +10,7 @@ const log = createLogger('register-server');
 // In-memory map to track failed captcha attempts per IP
 const captchaAttempts = new Map<string, { count: number; lastAttempt: number }>();
 
-// Lazy cleanup: Cloudflare Workers don't allow setInterval at global scope
+// Lazy cleanup of stale captcha attempts
 const ONE_HOUR = 60 * 60 * 1000;
 let lastCleanup = 0;
 function cleanupOldCaptchaAttempts() {
@@ -28,7 +28,6 @@ function cleanupOldCaptchaAttempts() {
 export const POST: RequestHandler = async ({ request, getClientAddress }) => {
 	log.debug('New registration attempt received');
 
-	// Lazy cleanup on each request (replaces setInterval for Cloudflare compatibility)
 	cleanupOldCaptchaAttempts();
 
 	if (request.method !== 'POST') {

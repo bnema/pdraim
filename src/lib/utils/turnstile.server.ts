@@ -1,4 +1,4 @@
-import { TURNSTILE_SECRET_KEY } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import { dev } from '$app/environment';
 import { createLogger } from './logger.server';
 
@@ -22,7 +22,7 @@ export async function validateTurnstileToken(token: string, remoteip?: string): 
 
 	try {
 		const formData = new FormData();
-		formData.append('secret', TURNSTILE_SECRET_KEY);
+		formData.append('secret', env.TURNSTILE_SECRET_KEY ?? '');
 		formData.append('response', token);
 		if (remoteip) {
 			formData.append('remoteip', remoteip);

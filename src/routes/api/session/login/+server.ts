@@ -17,7 +17,7 @@ const MAX_ATTEMPTS = 3;
 const ONE_HOUR = 60 * 60 * 1000;
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// Lazy cleanup: Cloudflare Workers don't allow setInterval at global scope
+// Lazy cleanup of stale login attempts
 let lastCleanup = 0;
 function cleanupOldAttempts() {
 	const now = Date.now();
@@ -34,7 +34,6 @@ function cleanupOldAttempts() {
 export const POST: RequestHandler = async ({ request, cookies, getClientAddress }) => {
 	log.debug('New login attempt received');
 
-	// Lazy cleanup on each request (replaces setInterval for Cloudflare compatibility)
 	cleanupOldAttempts();
 
 	if (request.method !== 'POST') {

@@ -1,7 +1,6 @@
 import pino from 'pino';
 
-// Pino without transports works in Cloudflare Workers (no worker threads)
-// transports like pino-pretty use worker threads which don't exist in CF Workers
+// JSON logs on stdout, collected by the container runtime
 // Use 'debug' level - filtering happens at log time based on env
 const logger = pino({
 	level: 'debug',

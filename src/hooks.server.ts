@@ -34,7 +34,7 @@ async function setAllUsersOffline() {
 	}
 }
 
-// Initialize server (deferred, non-blocking for Cloudflare Workers compatibility)
+// Initialize server lazily on the first API request
 let initPromise: Promise<void> | null = null;
 let lastFailedAttempt = 0;
 let failureCount = 0;
