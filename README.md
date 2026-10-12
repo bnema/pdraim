@@ -92,7 +92,7 @@ Toutes les variables sont lues au runtime (`$env/dynamic/*`) : la même image se
 | `PUBLIC_CONVEX_URL`, `CONVEX_API_SECRET`            | Accès à Convex                          |
 | `PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile                    |
 | `ORIGIN`                                            | URL publique (ex. `https://pdraim.org`) |
-| `ADDRESS_HEADER`, `XFF_DEPTH`                       | IP client derrière les reverse proxies  |
+| `ADDRESS_HEADER` (ex. `x-real-ip`)                  | IP client derrière les reverse proxies  |
 | `COOKIE_DOMAIN` (optionnel)                         | Cookie partagé entre sous-domaines      |
 
 ## Documentation et Ressources
