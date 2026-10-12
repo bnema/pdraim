@@ -1,9 +1,9 @@
 import pino from 'pino';
+import { dev } from '$app/environment';
 
 // JSON logs on stdout, collected by the container runtime
-// Use 'debug' level - filtering happens at log time based on env
 const logger = pino({
-	level: 'debug',
+	level: process.env.LOG_LEVEL ?? (dev ? 'debug' : 'info'),
 	formatters: {
 		level: (label) => ({ level: label })
 	}

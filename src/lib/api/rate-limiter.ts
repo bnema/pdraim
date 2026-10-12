@@ -98,7 +98,6 @@ function isRateLimited(
 }
 
 export async function handleRateLimit(event: RequestEvent): Promise<Response | null> {
-	const ip = event.getClientAddress();
 	const url = new URL(event.request.url);
 	const isPublic = url.searchParams.get('public') === 'true';
 
@@ -106,6 +105,8 @@ export async function handleRateLimit(event: RequestEvent): Promise<Response | n
 	if (!url.pathname.startsWith('/api')) {
 		return null;
 	}
+
+	const ip = event.getClientAddress();
 
 	const endpointType = getEndpointType(url.pathname, isPublic);
 	const { limited, retryAfter } = isRateLimited(ip, endpointType);

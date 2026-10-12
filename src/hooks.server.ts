@@ -85,7 +85,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// CSRF protection: validate Origin header for state-changing requests
 	if (event.request.method !== 'GET' && event.request.method !== 'HEAD') {
 		const origin = event.request.headers.get('origin');
-		const host = event.request.headers.get('host');
 
 		if (!origin) {
 			// Browsers always send Origin on state-changing requests.
@@ -98,11 +97,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 
 		try {
+			// event.url comes from ORIGIN in production, so proxies rewriting Host do not matter
 			const originUrl = new URL(origin);
-			if (originUrl.host !== host) {
+			if (originUrl.origin !== event.url.origin) {
 				log.warn('CSRF check failed - origin mismatch', {
-					origin: originUrl.host,
-					host
+					origin: originUrl.origin,
+					expected: event.url.origin
 				});
 				return new Response('Forbidden', { status: 403 });
 			}
@@ -144,6 +144,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// Public routes that don't require authentication
 	const publicRoutes = [
 		'/',
+		'/api/health',
 		'/api/session/login',
 		'/api/session/validate',
 		'/api/register',
