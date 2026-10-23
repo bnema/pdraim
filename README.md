@@ -13,7 +13,7 @@ Ce projet _sandbox_, à but non lucratif, recrée l'ambiance des salons de discu
 
 ## Prérequis
 
-- Node.js (>=22.13.0)
+- Node.js (26.12.1)
 - npm ou pnpm pour la gestion des packages
 
 ## Installation
