@@ -1,7 +1,6 @@
-FROM node:22-alpine AS build
+FROM node:26.12.1-alpine AS build
 WORKDIR /app
-ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
-RUN corepack enable
+RUN npm install -g pnpm@10.25.0
 
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm fetch
@@ -9,7 +8,7 @@ COPY . .
 RUN pnpm install --frozen-lockfile --offline && pnpm run build
 
 # Every dependency is bundled into build/, so the runtime image needs no node_modules
-FROM node:22-alpine
+FROM node:26.12.1-alpine
 WORKDIR /app
 ENV NODE_ENV=production \
     HOST=0.0.0.0 \
