@@ -31,7 +31,7 @@
 		"@tailwindcss/vite": "^4.3.3",
 		"@types/node": "^25.9.9",
 		"autoprefixer": "^10.6.1",
-		"convex": "^1.46.0",
+		"convex": "^1.47.0",
 		"convex-helpers": "^0.1.128",
 		"convex-svelte": "^0.0.12",
 		"eslint": "^10.12.0",
